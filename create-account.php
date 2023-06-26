@@ -72,26 +72,22 @@
 <body>
 <?php
 
-//learn from w3schools.com
-//Unset all the server side variables
 
 session_start();
 
 $_SESSION["user"]="";
 $_SESSION["usertype"]="";
 
-// Set the new timezone
-date_default_timezone_set('Asia/Kolkata');
+date_default_timezone_set('Asia/Kolkata');//remove
 $date = date('Y-m-d');
 
 $_SESSION["date"]=$date;
 
 
-//import database
 include("connection.php");
 
 if($_POST){
-    $result= $database->query("select * from webuser");
+    $result= $database->query("select * from tbl_webuser");
 
     $fname=$_SESSION['personal']['fname'];
     $lname=$_SESSION['personal']['lname'];
@@ -105,7 +101,7 @@ if($_POST){
     $cpassword=$_POST['cpassword'];
     
     if ($newpassword==$cpassword){
-        $sqlmain= "select * from webuser where email=?;";
+        $sqlmain= "select * from tbl_webuser where email=?;";
         $stmt = $database->prepare($sqlmain);
         $stmt->bind_param("s",$email);
         $stmt->execute();
@@ -113,11 +109,9 @@ if($_POST){
         if($result->num_rows==1){
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
         }else{
-            //TODO
-            $database->query("insert into patient(pemail,pname,ppassword, paddress, pnic,pdob,ptel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
-            $database->query("insert into webuser values('$email','p')");
+            $database->query("insert into tbl_patient(pemail,pname,ppassword, paddress, pnic,pdob,ptel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
+            $database->query("insert into tbl_webuser values('$email','p')");
 
-            //print_r("insert into patient values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
             $_SESSION["user"]=$email;
             $_SESSION["usertype"]="p";
             $_SESSION["username"]=$fname;

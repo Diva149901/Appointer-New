@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="../css/animations.css">  
     <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/admin.css">
-        
-
-
+ 
     <title>Settings</title>
     <style>
         .dashbord-tables{
@@ -28,8 +26,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -46,11 +42,10 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
+    $userrow = $database->query("select * from tbl_doctor where docemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["docid"];
     $username=$userfetch["docname"];
-
 
     //echo $userid;
     //echo $username;
@@ -133,10 +128,10 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $database->query("select  * from  tbl_patient;");
+                                $doctorrow = $database->query("select  * from tbl_doctor;");
+                                $appointmentrow = $database->query("select  * from  tbl_appointment where appodate>='$today';");
+                                $schedulerow = $database->query("select  * from  tbl_schedule where scheduledate='$today';");
 
 
                                 ?>

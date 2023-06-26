@@ -28,8 +28,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -46,12 +44,12 @@
 
     //import database
     include("../connection.php");
-    $sqlmain= "select * from patient where pemail=?";
+    $sqlmain= "select * from tbl_patient where pemail=?";
     $stmt = $database->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
     $result = $stmt->get_result();
-    $userfetch=$userrow->fetch_assoc();
+    $userfetch=$result->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
 
@@ -134,10 +132,10 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $database->query("select  * from  tbl_patient;");
+                                $doctorrow = $database->query("select  * from  tbl_doctor;");
+                                $appointmentrow = $database->query("select  * from  tbl_appointment where appodate>='$today';");
+                                $schedulerow = $database->query("select  * from  tbl_schedule where scheduledate='$today';");
 
 
                                 ?>
@@ -265,7 +263,7 @@
             </div>
             ';
         }elseif($action=='view'){
-            $sqlmain= "select * from patient where pid=?";
+            $sqlmain= "select * from tbl_patient where pid=?";
             $stmt = $database->prepare($sqlmain);
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -380,7 +378,7 @@
             </div>
             ';
         }elseif($action=='edit'){
-            $sqlmain= "select * from patient where pid=?";
+            $sqlmain= "select * from tbl_patient where pid=?";
             $stmt = $database->prepare($sqlmain);
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -546,8 +544,6 @@
                 </div>
                 </div>
     ';
-
-
 
         }; }
 

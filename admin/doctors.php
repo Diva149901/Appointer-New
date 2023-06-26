@@ -109,9 +109,10 @@
                     if($_POST){
                         $keyword=$_POST["search"];
                         
-                        $sqlmain= "select * from doctor where docemail='$keyword' or docname='$keyword' or docname like '$keyword%' or docname like '%$keyword' or docname like '%$keyword%'";
+                        $sqlmain= "select * from tbl_doctor where docemail='$keyword' or docname='$keyword' or 
+                        docname like '$keyword%' or docname like '%$keyword' or docname like '%$keyword%'";
                     }else{
-                        $sqlmain= "select * from doctor order by docid desc";
+                        $sqlmain= "select * from tbl_doctor order by docid desc";
 
                     }
 
@@ -177,7 +178,7 @@
                                     $name=$row["docname"];
                                     $email=$row["docemail"];
                                     $spe=$row["specialties"];
-                                    $spcil_res= $database->query("select sname from specialties where id='$spe'");
+                                    $spcil_res= $database->query("select sname from tbl_specialties where id='$spe'");
                                     $spcil_array= $spcil_res->fetch_assoc();
                                     $spcil_name=$spcil_array["sname"];
                                     echo '<tr>
@@ -247,14 +248,14 @@
             </div>
             ';
         }elseif($action=='view'){
-            $sqlmain= "select * from doctor where docid='$id'";
+            $sqlmain= "select * from tbl_doctor where docid='$id'";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["docname"];
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $spcil_res= $database->query("select sname from specialties where id='$spe'");
+            $spcil_res= $database->query("select sname from tbl_specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
             $nic=$row['docnic'];
@@ -340,7 +341,6 @@
                 
                             </tr>
                            
-
                         </table>
                         </div>
                     </center>
@@ -432,7 +432,7 @@
                                     <select name="spec" id="" class="box" >';
                                         
         
-                                        $list11 = $database->query("select  * from  specialties order by sname asc;");
+                                        $list11 = $database->query("select  * from  tbl_specialties order by sname asc;");
         
                                         for ($y=0;$y<$list11->num_rows;$y++){
                                             $row00=$list11->fetch_assoc();
@@ -509,14 +509,14 @@
         ';
             }
         }elseif($action=='edit'){
-            $sqlmain= "select * from doctor where docid='$id'";
+            $sqlmain= "select * from tbl_doctor where docid='$id'";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["docname"];
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $spcil_res= $database->query("select sname from specialties where id='$spe'");
+            $spcil_res= $database->query("select sname from tbl_specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
             $nic=$row['docnic'];
@@ -610,7 +610,7 @@
                                             <select name="spec" id="" class="box">';
                                                 
                 
-                                                $list11 = $database->query("select  * from  specialties;");
+                                                $list11 = $database->query("select  * from  tbl_specialties;");
                 
                                                 for ($y=0;$y<$list11->num_rows;$y++){
                                                     $row00=$list11->fetch_assoc();

@@ -29,8 +29,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -47,7 +45,7 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
+    $userrow = $database->query("select * from tbl_doctor where docemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["docid"];
     $username=$userfetch["docname"];
@@ -133,10 +131,10 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $database->query("select  * from  tbl_patient;");
+                                $doctorrow = $database->query("select  * from  tbl_doctor;");
+                                $appointmentrow = $database->query("select  * from  tbl_appointment where appodate>='$today';");
+                                $schedulerow = $database->query("select  * from  tbl_schedule where scheduledate='$today';");
 
 
                                 ?>
@@ -175,12 +173,6 @@
                         <table border="0" width="100%"">
                             <tr>
                                 <td width="50%">
-
-                                    
-
-
-
-
                                     <center>
                                         <table class="filter-container" style="border: none;" border="0">
                                             <tr>
@@ -250,13 +242,6 @@
                                         </table>
                                     </center>
 
-
-
-
-
-
-
-
                                 </td>
                                 <td>
 
@@ -291,7 +276,8 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                            $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
+                                            $sqlmain= "select tbl_schedule.scheduleid,tbl_schedule.title,tbl_doctor.docname,tbl_schedule.scheduledate,tbl_schedule.scheduletime,tbl_schedule.nop 
+                                            from tbl_schedule inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid  where tbl_schedule.scheduledate>='$today' and tbl_schedule.scheduledate<='$nextweek' order by tbl_schedule.scheduledate desc"; 
                                                 $result= $database->query($sqlmain);
                 
                                                 if($result->num_rows==0){
@@ -345,12 +331,6 @@
                                         </table>
                                         </div>
                                         </center>
-
-
-
-
-
-
 
                                 </td>
                             </tr>

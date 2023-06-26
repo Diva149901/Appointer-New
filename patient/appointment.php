@@ -19,9 +19,7 @@
 </style>
 </head>
 <body>
-    <?php
-
-    //learn from w3schools.com
+<?php
 
     session_start();
 
@@ -39,7 +37,7 @@
 
     //import database
     include("../connection.php");
-    $sqlmain= "select * from patient where pemail=?";
+    $sqlmain= "select * from tbl_patient where pemail=?";
     $stmt = $database->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
@@ -54,7 +52,10 @@
 
 
     //TODO
-    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid ";
+    $sqlmain= "select tbl_appointment.appoid,tbl_schedule.scheduleid,tbl_schedule.title,tbl_doctor.docname,tbl_patient.pname,
+    tbl_schedule.scheduledate,tbl_schedule.scheduletime,tbl_appointment.apponum,tbl_appointment.appodate from tbl_schedule inner join tbl_appointment 
+    on tbl_schedule.scheduleid=tbl_appointment.scheduleid inner join tbl_patient on tbl_patient.pid=tbl_appointment.pid inner join tbl_doctor on 
+    tbl_schedule.docid=tbl_doctor.docid  where  tbl_patient.pid=$userid ";
 
     if($_POST){
         //print_r($_POST);
@@ -73,7 +74,7 @@
 
     }
 
-    $sqlmain.="order by appointment.appodate  asc";
+    $sqlmain.="order by tbl_appointment.appodate  asc";
     $result= $database->query($sqlmain);
     ?>
     <div class="container">
@@ -220,8 +221,6 @@
                         
                             <?php
 
-                                
-                                
 
                                 if($result->num_rows==0){
                                     echo '<tr>
@@ -407,7 +406,7 @@
             </div>
             '; 
         }elseif($action=='view'){
-            $sqlmain= "select * from doctor where docid=?";
+            $sqlmain= "select * from tbl_doctor where docid=?";
             $stmt = $database->prepare($sqlmain);
             $stmt->bind_param("i",$id);
             $stmt->execute();
@@ -417,7 +416,7 @@
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $sqlmain= "select sname from specialties where id=?";
+            $sqlmain= "select sname from tbl_specialties where id=?";
             $stmt = $database->prepare($sqlmain);
             $stmt->bind_param("s",$spe);
             $stmt->execute();

@@ -21,8 +21,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -39,7 +37,7 @@
 
     //import database
     include("../connection.php");
-    $sqlmain= "select * from patient where pemail=?";
+    $sqlmain= "select * from tbl_patient where pemail=?";
     $stmt = $database->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
@@ -52,7 +50,7 @@
     //echo $userid;
     //echo $username;
     
-    date_default_timezone_set('Asia/Kolkata');
+    date_default_timezone_set('Asia/Kolkata');//remove
 
     $today = date('Y-m-d');
 
@@ -113,18 +111,23 @@
         </div>
         <?php
 
-                $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduledate>='$today'  order by schedule.scheduledate asc";
+                $sqlmain= "select * from tbl_schedule inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid where 
+                tbl_schedule.scheduledate>='$today'  
+                order by tbl_schedule.scheduledate asc";
                 $sqlpt1="";
                 $insertkey="";
                 $q='';
                 $searchtype="All";
                         if($_POST){
-                        //print_r($_POST);
-                        
+
                         if(!empty($_POST["search"])){
-                            /*TODO: make and understand */
                             $keyword=$_POST["search"];
-                            $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduledate>='$today' and (doctor.docname='$keyword' or doctor.docname like '$keyword%' or doctor.docname like '%$keyword' or doctor.docname like '%$keyword%' or schedule.title='$keyword' or schedule.title like '$keyword%' or schedule.title like '%$keyword' or schedule.title like '%$keyword%' or schedule.scheduledate like '$keyword%' or schedule.scheduledate like '%$keyword' or schedule.scheduledate like '%$keyword%' or schedule.scheduledate='$keyword' )  order by schedule.scheduledate asc";
+                            $sqlmain= "select * from tbl_schedule inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid where
+                            tbl_schedule.scheduledate>='$today' and (tbl_doctor.docname='$keyword' or tbl_doctor.docname like '$keyword%' or tbl_doctor.docname like 
+                            '%$keyword' or tbl_doctor.docname like '%$keyword%' or tbl_schedule.title='$keyword' or tbl_schedule.title like '$keyword%' 
+                            or tbl_schedule.title like '%$keyword' or tbl_schedule.title like '%$keyword%' or tbl_schedule.scheduledate like '$keyword%' 
+                            or tbl_schedule.scheduledate like '%$keyword' or tbl_schedule.scheduledate like '%$keyword%' or tbl_schedule.scheduledate='$keyword' ) 
+                             order by tbl_schedule.scheduledate asc";
                             //echo $sqlmain;
                             $insertkey=$keyword;
                             $searchtype="Search Result : ";
@@ -133,9 +136,7 @@
 
                     }
 
-
                 $result= $database->query($sqlmain)
-
 
                 ?>
                   
@@ -152,13 +153,9 @@
                                         
                                         <?php
                                             echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select DISTINCT * from  doctor;");
-                                            $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
-                                            
-
-                                            
-
-
+                                            $list11 = $database->query("select DISTINCT * from  tbl_doctor;");
+                                            $list12 = $database->query("select DISTINCT * from  tbl_schedule GROUP BY title;");
+                                    
                                             for ($y=0;$y<$list11->num_rows;$y++){
                                                 $row00=$list11->fetch_assoc();
                                                 $d=$row00["docname"];
@@ -188,22 +185,14 @@
                         </p>
                         <p class="heading-sub12" style="padding: 0;margin: 0;">
                             <?php 
-
-                                
                                 echo $today;
-
-                                
-
                         ?>
                         </p>
                     </td>
                     <td width="10%">
                         <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
                     </td>
-
-
                 </tr>
-                
                 
                 <tr>
                     <td colspan="4" style="padding-top:10px;width: 100%;" >
@@ -224,10 +213,7 @@
                         <tbody>
                         
                             <?php
-
-                                
-                                
-
+ 
                                 if($result->num_rows==0){
                                     echo '<tr>
                                     <td colspan="4">
@@ -288,29 +274,6 @@
                                     }
                                     echo "</tr>";
                                     
-                                    
-                                    // echo '<tr>
-                                    //     <td> &nbsp;'.
-                                    //     substr($title,0,30)
-                                    //     .'</td>
-                                        
-                                    //     <td style="text-align:center;">
-                                    //         '.substr($scheduledate,0,10).' '.substr($scheduletime,0,5).'
-                                    //     </td>
-                                    //     <td style="text-align:center;">
-                                    //         '.$nop.'
-                                    //     </td>
-
-                                    //     <td>
-                                    //     <div style="display:flex;justify-content: center;">
-                                        
-                                    //     <a href="?action=view&id='.$scheduleid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                    //    &nbsp;&nbsp;&nbsp;
-                                    //    <a href="?action=drop&id='.$scheduleid.'&name='.$title.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancel Session</font></button></a>
-                                    //     </div>
-                                    //     </td>
-                                    // </tr>';
-                                    
                                 }
                             }
                                  
@@ -323,9 +286,7 @@
                         </center>
                    </td> 
                 </tr>
-                       
-                        
-                        
+          
             </table>
         </div>
     </div>

@@ -21,8 +21,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -36,11 +34,9 @@
         header("location: ../login.php");
     }
     
-    
-
        //import database
        include("../connection.php");
-       $userrow = $database->query("select * from doctor where docemail='$useremail'");
+       $userrow = $database->query("select * from tbl_doctor where docemail='$useremail'");
        $userfetch=$userrow->fetch_assoc();
        $userid= $userfetch["docid"];
        $username=$userfetch["docname"];
@@ -120,7 +116,8 @@
                         $today = date('Y-m-d');
                         echo $today;
 
-                        $list110 = $database->query("select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ");
+                        $list110 = $database->query("select * from tbl_schedule inner join tbl_appointment on tbl_schedule.scheduleid=tbl_appointment.scheduleid inner join 
+                        tbl_patient on tbl_patient.pid=tbl_appointment.pid inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid  where  tbl_doctor.docid=$userid ");
 
                         ?>
                         </p>
@@ -131,16 +128,7 @@
 
 
                 </tr>
-               
-                <!-- <tr>
-                    <td colspan="4" >
-                        <div style="display: flex;margin-top: 40px;">
-                        <div class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Schedule a Session</div>
-                        <a href="?action=add-session&id=none&error=0" class="non-style-link"><button  class="login-btn btn-primary btn button-icon"  style="margin-left:25px;background-image: url('../img/icons/add.svg');">Add a Session</font></button>
-                        </a>
-                        </div>
-                    </td>
-                </tr> -->
+ 
                 <tr>
                     <td colspan="4" style="padding-top:10px;width: 100%;" >
                     
@@ -182,20 +170,17 @@
                 <?php
 
 
-                    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ";
+                    $sqlmain= "select tbl_appointment.appoid,tbl_schedule.scheduleid,tbl_schedule.title,tbl_doctor.docname,tbl_patient.pname,tbl_schedule.scheduledate,
+                    tbl_schedule.scheduletime,tbl_appointment.apponum,tbl_appointment.appodate from tbl_schedule inner join tbl_appointment on tbl_schedule.scheduleid=tbl_appointment.scheduleid 
+                    inner join tbl_patient on tbl_patient.pid=tbl_appointment.pid inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid  where  tbl_doctor.docid=$userid ";
 
                     if($_POST){
-                        //print_r($_POST);
-                        
 
-
-                        
+  
                         if(!empty($_POST["sheduledate"])){
                             $sheduledate=$_POST["sheduledate"];
                             $sqlmain.=" and schedule.scheduledate='$sheduledate' ";
                         };
-
-                        
 
                         //echo $sqlmain;
 

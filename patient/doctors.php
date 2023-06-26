@@ -21,8 +21,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -39,7 +37,7 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
+    $userrow = $database->query("select * from tbl_patient where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -112,7 +110,7 @@
                             
                             <?php
                                 echo '<datalist id="doctors">';
-                                $list11 = $database->query("select  docname,docemail from  doctor;");
+                                $list11 = $database->query("select  docname,docemail from  tbl_doctor;");
 
                                 for ($y=0;$y<$list11->num_rows;$y++){
                                     $row00=$list11->fetch_assoc();
@@ -162,13 +160,11 @@
                     if($_POST){
                         $keyword=$_POST["search"];
                         
-                        $sqlmain= "select * from doctor where docemail='$keyword' or docname='$keyword' or docname like '$keyword%' or docname like '%$keyword' or docname like '%$keyword%'";
+                        $sqlmain= "select * from tbl_doctor where docemail='$keyword' or docname='$keyword' or docname like '$keyword%' or docname like '%$keyword' or docname like '%$keyword%'";
                     }else{
-                        $sqlmain= "select * from doctor order by docid desc";
+                        $sqlmain= "select * from tbl_doctor order by docid desc";
 
                     }
-
-
 
                 ?>
                   
@@ -230,7 +226,7 @@
                                     $name=$row["docname"];
                                     $email=$row["docemail"];
                                     $spe=$row["specialties"];
-                                    $spcil_res= $database->query("select sname from specialties where id='$spe'");
+                                    $spcil_res= $database->query("select sname from tbl_specialties where id='$spe'");
                                     $spcil_array= $spcil_res->fetch_assoc();
                                     $spcil_name=$spcil_array["sname"];
                                     echo '<tr>
@@ -299,7 +295,7 @@
             </div>
             ';
         }elseif($action=='view'){
-            $sqlmain = "SELECT * FROM doctor WHERE docid=?";
+            $sqlmain = "SELECT * FROM tbl_doctor WHERE docid=?";
             $stmt = $database->prepare($sqlmain);
             $stmt->bind_param("i",$id);
             $stmt->execute();
@@ -310,7 +306,7 @@
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $stmt = $database->prepare("select sname from specialties where id=?");
+            $stmt = $database->prepare("select sname from tbl_specialties where id=?");
             $stmt->bind_param("s",$spe);
             $stmt->execute();
             $spcil_res = $stmt->get_result();
@@ -436,7 +432,7 @@
             ';
         }
         }elseif($action=='edit'){
-            $sqlmain= "select * from doctor where docid=?";
+            $sqlmain= "select * from tbl_doctor where docid=?";
             $stmt = $database->prepare($sqlmain);
             $stmt->bind_param("i",$id);
             $stmt->execute();
@@ -447,7 +443,7 @@
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $sqlmain= "select sname from specialties where id='?";
+            $sqlmain= "select sname from tbl_specialties where id='?";
             $stmt = $database->prepare($sqlmain);
             $stmt->bind_param("s",$spe);
             $stmt->execute();
@@ -545,7 +541,7 @@
                                             <select name="spec" id="" class="box">';
                                                 
                 
-                                                $list11 = $database->query("select  * from  specialties;");
+                                                $list11 = $database->query("select  * from  tbl_specialties;");
                 
                                                 for ($y=0;$y<$list11->num_rows;$y++){
                                                     $row00=$list11->fetch_assoc();
@@ -567,7 +563,7 @@
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="password" name="password" class="input-text" placeholder="Defind a Password" required><br>
+                                            <input type="password" name="password" class="input-text" placeholder="Define a Password" required><br>
                                         </td>
                                     </tr><tr>
                                         <td class="label-td" colspan="2">
@@ -576,7 +572,7 @@
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="password" name="cpassword" class="input-text" placeholder="Conform Password" required><br>
+                                            <input type="password" name="cpassword" class="input-text" placeholder="Confirm Password" required><br>
                                         </td>
                                     </tr>
                                     

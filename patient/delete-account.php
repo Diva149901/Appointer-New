@@ -14,9 +14,8 @@
     }
     
 
-    //import database
     include("../connection.php");
-    $sqlmain= "select * from patient where pemail=?";
+    $sqlmain= "select * from tbl_patient where pemail=?";
     $stmt = $database->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
@@ -27,30 +26,30 @@
 
     
     if($_GET){
-        //import database
+
         include("../connection.php");
         $id=$_GET["id"];
-        $sqlmain= "select * from patient where pid=?";
+        $sqlmain= "select * from tbl_patient where pid=?";
         $stmt = $database->prepare($sqlmain);
         $stmt->bind_param("i",$id);
         $stmt->execute();
         $result001 = $stmt->get_result();
         $email=($result001->fetch_assoc())["pemail"];
 
-        $sqlmain= "delete from webuser where email=?;";
+        $sqlmain= "delete from tbl_webuser where email=?;";
         $stmt = $database->prepare($sqlmain);
         $stmt->bind_param("s",$email);
         $stmt->execute();
         $result = $stmt->get_result();
 
 
-        $sqlmain= "delete from patient where pemail=?";
+        $sqlmain= "delete from tbl_patient where pemail=?";
         $stmt = $database->prepare($sqlmain);
         $stmt->bind_param("s",$email);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        //print_r($email);
+
         header("location: ../logout.php");
     }
 

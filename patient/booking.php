@@ -21,7 +21,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
 
     session_start();
 
@@ -37,10 +36,9 @@
     }
     
 
-    //import database
     include("../connection.php");
 
-    $sqlmain= "select * from patient where pemail=?";
+    $sqlmain= "select * from tbl_patient where pemail=?";
     $stmt = $database->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
@@ -50,17 +48,11 @@
     $username = $userrow["pname"];
 
 
-    //echo $userid;
-    //echo $username;
-    
 
-
-    date_default_timezone_set('Asia/Kolkata');
+    date_default_timezone_set('Asia/Kolkata');//remove
 
     $today = date('Y-m-d');
 
-
- //echo $userid;
  ?>
  <div class="container">
      <div class="menu">
@@ -128,13 +120,9 @@
                                         
                                         <?php
                                             echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select DISTINCT * from  doctor;");
-                                            $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
-                                            
-
-                                            
-
-
+                                            $list11 = $database->query("select DISTINCT * from  tbl_doctor;");
+                                            $list12 = $database->query("select DISTINCT * from  tbl_schedule GROUP BY title;");
+                   
                                             for ($y=0;$y<$list11->num_rows;$y++){
                                                 $row00=$list11->fetch_assoc();
                                                 $d=$row00["docname"];
@@ -142,7 +130,6 @@
                                                 echo "<option value='$d'><br/>";
                                                
                                             };
-
 
                                             for ($y=0;$y<$list12->num_rows;$y++){
                                                 $row00=$list12->fetch_assoc();
@@ -153,8 +140,7 @@
 
                                         echo ' </datalist>';
             ?>
-                                        
-                                
+                                         
                                         <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
                                         </form>
                     </td>
@@ -164,11 +150,9 @@
                         </p>
                         <p class="heading-sub12" style="padding: 0;margin: 0;">
                             <?php 
-
-                                
+         
                                 echo $today;
-
-                                
+      
 
                         ?>
                         </p>
@@ -209,7 +193,8 @@
 
                                     $id=$_GET["id"];
 
-                                    $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=? order by schedule.scheduledate desc";
+                                    $sqlmain= "select * from tbl_schedule inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid where tbl_schedule.scheduleid=? 
+                                    order by tbl_schedule.scheduledate desc";
                                     $stmt = $database->prepare($sqlmain);
                                     $stmt->bind_param("i", $id);
                                     $stmt->execute();
@@ -222,7 +207,7 @@
                                     $docemail=$row["docemail"];
                                     $scheduledate=$row["scheduledate"];
                                     $scheduletime=$row["scheduletime"];
-                                    $sql2="select * from appointment where scheduleid=$id";
+                                    $sql2="select * from tbl_appointment where scheduleid=$id";
                                     //echo $sql2;
                                      $result12= $database->query($sql2);
                                      $apponum=($result12->num_rows)+1;

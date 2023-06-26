@@ -16,10 +16,10 @@
         //import database
         include("../connection.php");
         $id=$_GET["id"];
-        $result001= $database->query("select * from doctor where docid=$id;");
+        $result001= $database->query("select * from tbl_doctor where docid=$id;");
         $email=($result001->fetch_assoc())["docemail"];
-        $sql= $database->query("delete from webuser where email='$email';");
-        $sql= $database->query("delete from doctor where docemail='$email';");
+        $sql= $database->query("delete from tbl_webuser where email='$email';");
+        $sql= $database->query("delete from tbl_doctor where docemail='$email';");
         //print_r($email);
         header("location: doctors.php");
     }

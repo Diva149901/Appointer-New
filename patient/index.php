@@ -26,7 +26,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
 
     session_start();
 
@@ -45,7 +44,7 @@
     //import database
     include("../connection.php");
 
-    $sqlmain= "select * from patient where pemail=?";
+    $sqlmain= "select * from tbl_patient where pemail=?";
     $stmt = $database->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
@@ -136,10 +135,10 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $database->query("select  * from  tbl_patient;");
+                                $doctorrow = $database->query("select  * from tbl_doctor;");
+                                $appointmentrow = $database->query("select  * from  tbl_appointment where appodate>='$today';");
+                                $schedulerow = $database->query("select  * from  tbl_schedule where scheduledate='$today';");
 
 
                                 ?>
@@ -185,8 +184,7 @@
     
                                 echo ' </datalist>';
     ?>
-                                
-                           
+                          
                                 <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
                             
                             <br>
@@ -204,11 +202,6 @@
                         <table border="0" width="100%"">
                             <tr>
                                 <td width="50%">
-
-                                    
-
-
-
 
                                     <center>
                                         <table class="filter-container" style="border: none;" border="0">
@@ -278,19 +271,9 @@
                                             </tr>
                                         </table>
                                     </center>
-
-
-
-
-
-
-
-
                                 </td>
                                 <td>
 
-
-                            
                                     <p style="font-size: 20px;font-weight:600;padding-left: 40px;" class="anime">Your Upcoming Booking</p>
                                     <center>
                                         <div class="abc scroll" style="height: 250px;padding: 0;margin: 0;">
@@ -316,7 +299,7 @@
                                                 </th>
                                                 <th class="table-headin">
                                                     
-                                                    Sheduled Date & Time
+                                                    Scheduled Date & Time
                                                     
                                                 </th>
                                                     
@@ -326,7 +309,9 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                                $sqlmain= "select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
+                                                $sqlmain= "select * from tbl_schedule inner join tbl_appointment on tbl_schedule.scheduleid=tbl_appointment.scheduleid inner join 
+                                                tbl_patient on tbl_patient.pid=tbl_appointment.pid inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid  where  tbl_patient.pid=$userid  
+                                                and tbl_schedule.scheduledate>='$today' order by tbl_schedule.scheduledate asc";
                                                 //echo $sqlmain;
                                                 $result= $database->query($sqlmain);
                 
@@ -377,21 +362,11 @@
                                                     
                                                 }
                                             }
-                                                 
                                             ?>
-                 
                                             </tbody>
-                
                                         </table>
                                         </div>
                                         </center>
-
-
-
-
-
-
-
                                 </td>
                             </tr>
                         </table>
@@ -400,7 +375,5 @@
             </table>
         </div>
     </div>
-
-
 </body>
 </html>

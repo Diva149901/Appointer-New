@@ -18,7 +18,7 @@
 
     //import database
     include("../connection.php");
-    $sqlmain= "select * from patient where pemail=?";
+    $sqlmain= "select * from tbl_patient where pemail=?";
     $stmt = $database->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
@@ -34,9 +34,8 @@
             $scheduleid=$_POST["scheduleid"];
             $date=$_POST["date"];
             $scheduleid=$_POST["scheduleid"];
-            $sql2="insert into appointment(pid,apponum,scheduleid,appodate) values ($userid,$apponum,$scheduleid,'$date')";
+            $sql2="insert into tbl_appointment(pid,apponum,scheduleid,appodate) values ($userid,$apponum,$scheduleid,'$date')";
             $result= $database->query($sql2);
-            //echo $apponom;
             header("location: appointment.php?action=booking-added&id=".$apponum."&titleget=none");
 
         }

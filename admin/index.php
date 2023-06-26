@@ -105,10 +105,10 @@
                                 //echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $database->query("select  * from  tbl_patient;");
+                                $doctorrow = $database->query("select  * from  tbl_doctor;");
+                                $appointmentrow = $database->query("select  * from  tbl_appointment where appodate>='$today';");
+                                $schedulerow = $database->query("select  * from  tbl_schedule where scheduledate='$today';");
 
 
                                 ?>
@@ -176,7 +176,11 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                            $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today'  and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
+                                            $sqlmain= "select tbl_appointment.appoid,tbl_schedule.scheduleid,tbl_schedule.title,tbl_doctor.docname,tbl_patient.pname,
+                                            tbl_schedule.scheduledate,tbl_schedule.scheduletime,tbl_appointment.apponum,tbl_appointment.appodate 
+                                            from tbl_schedule inner join tbl_appointment on tbl_schedule.scheduleid=tbl_appointment.scheduleid inner join
+                                            tbl_patient on tbl_patient.pid=tbl_appointment.pid inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid  where tbl_schedule.scheduledate>='$today'  
+                                            and tbl_schedule.scheduledate<='$nextweek' order by tbl_schedule.scheduledate desc";
 
                                                 $result= $database->query($sqlmain);
                 
@@ -272,7 +276,9 @@
                                         
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
-                                            $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
+                                            $sqlmain= "select tbl_schedule.scheduleid,tbl_schedule.title,tbl_doctor.docname,tbl_schedule.scheduledate,tbl_schedule.scheduletime,
+                                            tbl_schedule.nop from tbl_schedule inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid  where tbl_schedule.scheduledate>='$today' and 
+                                            tbl_schedule.scheduledate<='$nextweek' order by tbl_schedule.scheduledate desc"; 
                                                 $result= $database->query($sqlmain);
                 
                                                 if($result->num_rows==0){

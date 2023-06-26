@@ -21,8 +21,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -40,7 +38,7 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
+    $userrow = $database->query("select * from tbl_doctor where docemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["docid"];
     $username=$userfetch["docname"];
@@ -120,7 +118,7 @@
                         $today = date('Y-m-d');
                         echo $today;
 
-                        $list110 = $database->query("select  * from  schedule where docid=$userid;");
+                        $list110 = $database->query("select  * from  tbl_schedule where docid=$userid;");
 
                         ?>
                         </p>
@@ -174,7 +172,8 @@
                 
                 <?php
 
-                $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid where doctor.docid=$userid ";
+                $sqlmain= "select tbl_schedule.scheduleid,tbl_schedule.title,tbl_doctor.docname,tbl_schedule.scheduledate,tbl_schedule.scheduletime,
+                tbl_schedule.nop from tbl_schedule inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid where tbl_doctor.docid=$userid ";
                     if($_POST){
                         //print_r($_POST);
                         $sqlpt1="";
@@ -201,10 +200,9 @@
                                 
                                 </th>
                                 
-                                
                                 <th class="table-headin">
                                     
-                                    Sheduled Date & Time
+                                    Scheduled Date & Time
                                     
                                 </th>
                                 <th class="table-headin">
@@ -286,9 +284,7 @@
                         </center>
                    </td> 
                 </tr>
-                       
-                        
-                        
+                 
             </table>
         </div>
     </div>
@@ -319,7 +315,8 @@
             </div>
             '; 
         }elseif($action=='view'){
-            $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where  schedule.scheduleid=$id";
+            $sqlmain= "select tbl_schedule.scheduleid,tbl_schedule.title,tbl_doctor.docname,tbl_schedule.scheduledate,tbl_schedule.scheduletime,
+            tbl_schedule.nop from tbl_schedule inner join tbl_doctor on tbl_schedule.docid=tbl_doctor.docid  where  tbl_schedule.scheduleid=$id";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
             $docname=$row["docname"];
@@ -332,7 +329,8 @@
             $nop=$row['nop'];
 
 
-            $sqlmain12= "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.scheduleid=$id;";
+            $sqlmain12= "select * from tbl_appointment inner join tbl_patient on tbl_patient.pid=tbl_appointment.pid inner join 
+            tbl_schedule on tbl_schedule.scheduleid=tbl_appointment.scheduleid where tbl_schedule.scheduleid=$id;";
             $result12= $database->query($sqlmain12);
             echo '
             <div id="popup1" class="overlay">
@@ -483,8 +481,7 @@
                                              
                                          }
                                      }
-                                          
-                                     
+ 
                 
                                     echo '</tbody>
                 

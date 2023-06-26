@@ -1,16 +1,10 @@
-
-    <?php
-    
-    
+<?php
 
     //import database
     include("../connection.php");
 
-
-
     if($_POST){
-        //print_r($_POST);
-        $result= $database->query("select * from webuser");
+        $result= $database->query("select * from tbl_webuser");
         $name=$_POST['name'];
         $nic=$_POST['nic'];
         $oldemail=$_POST["oldemail"];
@@ -24,7 +18,7 @@
         if ($password==$cpassword){
             $error='3';
 
-            $sqlmain= "select patient.pid from patient inner join webuser on patient.pemail=webuser.email where webuser.email=?;";
+            $sqlmain= "select tbl_patient.pid from tbl_patient inner join tbl_webuser on tbl_patient.pemail=tbl_webuser.email where tbl_webuser.email=?;";
             $stmt = $database->prepare($sqlmain);
             $stmt->bind_param("s",$email);
             $stmt->execute();
@@ -46,10 +40,10 @@
             }else{
 
                 //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-                $sql1="update patient set pemail='$email',pname='$name',ppassword='$password',pnic='$nic',ptel='$tele',paddress='$address' where pid=$id ;";
+                $sql1="update tbl_patient set pemail='$email',pname='$name',ppassword='$password',pnic='$nic',ptel='$tele',paddress='$address' where pid=$id ;";
                 $database->query($sql1);
                 echo $sql1;
-                $sql1="update webuser set email='$email' where email='$oldemail' ;";
+                $sql1="update tbl_webuser set email='$email' where email='$oldemail' ;";
                 $database->query($sql1);
                 echo $sql1;
                 
@@ -60,20 +54,15 @@
         }else{
             $error='2';
         }
-    
-    
-        
+
         
     }else{
         //header('location: signup.php');
         $error='3';
     }
-    
 
     header("location: settings.php?action=edit&error=".$error."&id=".$id);
     ?>
-    
-   
 
 </body>
 </html>

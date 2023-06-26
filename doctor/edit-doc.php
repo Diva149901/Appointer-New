@@ -10,7 +10,7 @@
 
     if($_POST){
         //print_r($_POST);
-        $result= $database->query("select * from webuser");
+        $result= $database->query("select * from tbl_webuser");
         $name=$_POST['name'];
         $oldemail=$_POST["oldemail"];
         $nic=$_POST['nic'];
@@ -23,7 +23,8 @@
         
         if ($password==$cpassword){
             $error='3';
-            $result= $database->query("select doctor.docid from doctor inner join webuser on doctor.docemail=webuser.email where webuser.email='$email';");
+            $result= $database->query("select tbl_doctor.docid from tbl_doctor inner join tbl_webuser on tbl_doctor.docemail=tbl_webuser.email 
+            where tbl_webuser.email='$email';");
             //$resultqq= $database->query("select * from doctor where docid='$id';");
             if($result->num_rows==1){
                 $id2=$result->fetch_assoc()["docid"];
@@ -41,10 +42,10 @@
             }else{
 
                 //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-                $sql1="update doctor set docemail='$email',docname='$name',docpassword='$password',docnic='$nic',doctel='$tele',specialties=$spec where docid=$id ;";
+                $sql1="update tbl_doctor set docemail='$email',docname='$name',docpassword='$password',docnic='$nic',doctel='$tele',specialties=$spec where docid=$id ;";
                 $database->query($sql1);
 
-                $sql1="update webuser set email='$email' where email='$oldemail' ;";
+                $sql1="update tbl_webuser set email='$email' where email='$oldemail' ;";
                 $database->query($sql1);
 
                 echo $sql1;
