@@ -21,8 +21,6 @@
 <body>
     <?php
 
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -33,8 +31,6 @@
     }else{
         header("location: ../login.php");
     }
-    
-    
 
     //import database
     include("../connection.php");
@@ -96,35 +92,24 @@
         <div class="dash-body">
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
                 <tr >
-                    <td width="13%" >
-                    <a href="schedule.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
-                    </td>
+
                     <td>
-                        <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Shedule Manager</p>
-                                           
+                        <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Schedule Manager</p>
                     </td>
                     <td width="15%">
-                        <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
-                            Today's Date
-                        </p>
+
                         <p class="heading-sub12" style="padding: 0;margin: 0;">
                             <?php 
 
                         date_default_timezone_set('Asia/Kolkata');
 
                         $today = date('Y-m-d');
-                        echo $today;
+                        //echo $today;
 
                         $list110 = $database->query("select  * from  schedule;");
 
                         ?>
-                        </p>
                     </td>
-                    <td width="10%">
-                        <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
-                    </td>
-
-
                 </tr>
                
                 <tr>
@@ -341,8 +326,7 @@
                         </center>
                    </td> 
                 </tr>
-                       
-                        
+             
                         
             </table>
         </div>
